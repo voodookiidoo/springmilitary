@@ -3,6 +3,7 @@ package military.dao;
 import military.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -142,4 +143,55 @@ public class MainDao {
 				new TaskModel6.Mapper()
 		);
 	}
+	public List<TaskModel7> task7()
+	{
+		return jdbcTemplate.query(
+				"",
+				new TaskModel7.Mapper()
+		);
+	}
+	public List<TaskModel8> task8()
+	{
+		return jdbcTemplate.query(
+				"",
+				new TaskModel8.Mapper()
+		);
+
+	}
+	public List<TaskModel9> task9()
+	{
+		return jdbcTemplate.query(
+				"",
+				new TaskModel9.Mapper()
+		);
+	}
+	public List<TaskModel10> task10()
+	{
+		return jdbcTemplate.query(
+				"",
+				new TaskModel10.Mapper()
+		);
+	}
+	public List<TaskModel11> task11()
+	{
+		return jdbcTemplate.query(
+				"",
+				new TaskModel11.Mapper()
+		);
+	}
+	public List<TaskModel12> task12()
+	{
+		return jdbcTemplate.query(
+				"",
+				new TaskModel12.Mapper()
+		);
+	}
+	public List<TaskModel13> task13()
+	{
+		return jdbcTemplate.query(
+				"",
+				new TaskModel13.Mapper()
+		);
+	}
+
 }

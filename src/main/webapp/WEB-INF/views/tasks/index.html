@@ -6,7 +6,7 @@
 </head>
 <body>
 <div>
-	<div th:each="num : ${#numbers.sequence(1, 10)}">
+	<div th:each="num : ${#numbers.sequence(1, 13)}">
 		<p><a th:href="@{/military/task{tasknum}(tasknum=${num})}" th:text="${'Task number '+ num}">
 		</a></p>
 	</div>

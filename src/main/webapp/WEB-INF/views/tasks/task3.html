@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Title3</title>
+</head>
+<body>
+<form th:method="GET" th:action="@{/military/task3}">
+	<label for="type" th:text="'Choose a type of commander'"/>
+	<select name="type" id="type" >
+		<option value="sergent" th:text="'Sergent'"/>
+		<option value="officer" th:text="'Officer'"/>
+		<option value="private" th:text="'Private'"/>
+	</select>
+	<input type="submit" value="Get commander of chosen type">
+</form>
+<div th:each="row :${result}">
+	<p th:text="${'id is ' + row.getId() + ' name is ' + row.getName()}">
+</div>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Title1</title>
+</head>
+<body>
+<form th:method="GET" th:action="@{/military/task1}" >
+	<label for="num" th:text="'just a text'"/>
+	<input type="number" id="num" th:name="number" >
+	<input type="submit" value="get filtered date">
+</form>
+<div th:each="val : ${result}" >
+	<p ><a th:text="${val.getCommander()}"></a></p>
+</div>
+</body>
+</html>

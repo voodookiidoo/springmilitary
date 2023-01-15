@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<p>AMONG US</p>
+<div th:each="army: ${armies}">
+	<p><a th:text="${'id is ' + army.getId() + ' army number is ' + army.getArmy_number()}"></a></p>
+</div>
+</body>
+</html>

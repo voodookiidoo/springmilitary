@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Title2</title>
+</head>
+<body>
+<form th:method="GET" th:action="@{/military/task2}">
+	<label for="rank" th:text="'just a text'"/>
+	<input type="text" id="rank" th:name="rank">
+	<input type="submit" value="get filtered data">
+
+</form>
+<div th:each="row :${result}">
+	<p th:text="${'id is ' + row.getId() + ' name is ' + row.getName()}">
+</div>
+
+</body>
+</html>

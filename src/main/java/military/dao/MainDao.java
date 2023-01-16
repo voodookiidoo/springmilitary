@@ -3,7 +3,6 @@ package military.dao;
 import military.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -143,55 +142,197 @@ public class MainDao {
 				new TaskModel6.Mapper()
 		);
 	}
-	public List<TaskModel7> task7()
-	{
+
+	public List<TaskModel7> task7() {
 		return jdbcTemplate.query(
-				"",
+				"select infrastructure.id as id,\n" +
+						"       count(m.id)       as amount\n" +
+						"from infrastructure\n" +
+						"         left join infrastruct2unit i2u on infrastructure.id = i2u.struct_id\n" +
+						"         right join milunit m on m.id = i2u.unit_id\n" +
+						"group by id\n" +
+						"having count(m.id) = 1",
 				new TaskModel7.Mapper()
 		);
 	}
-	public List<TaskModel8> task8()
-	{
+
+	public List<TaskModel8> task8() {
 		return jdbcTemplate.query(
-				"",
+				"SELECT milunit_number as num, " +
+						"t2u.amount as amount\n" +
+						"from milunit left join tech2unit t2u on milunit.id = t2u.unit_id\n" +
+						"left join militech m on m.id = t2u.tech_id\n" +
+						"WHERE t2u.amount > 5",
 				new TaskModel8.Mapper()
 		);
 
 	}
-	public List<TaskModel9> task9()
-	{
+
+	public List<TaskModel9> task9() {
 		return jdbcTemplate.query(
-				"",
+				"SELECT m.tech_type   AS type,\n" +
+						"       m.description AS descr,\n" +
+						"       t2u.amount    AS amount,\n" +
+						"       m2.name       AS disname\n" +
+						"FROM milunit\n" +
+						"\t     LEFT JOIN tech2unit t2u ON milunit.id = t2u.unit_id\n" +
+						"\t     LEFT JOIN militech m\n" +
+						"\t               ON m.id = t2u.tech_id\n" +
+						"\t     LEFT JOIN mildistrict m2 ON milunit.mildistrict_id = m2.id\n",
 				new TaskModel9.Mapper()
 		);
 	}
-	public List<TaskModel10> task10()
-	{
+
+	public List<TaskModel10> task10() {
 		return jdbcTemplate.query(
-				"",
+				"SELECT major, COUNT(o.id) as amount\n" +
+						"FROM mildistrict\n" +
+						"\t     LEFT JOIN milunit m ON mildistrict.id = m.mildistrict_id\n" +
+						"\t     LEFT JOIN officers o ON o.id = m.commander_id\n" +
+						"GROUP BY major\n" +
+						"HAVING amount > 1",
 				new TaskModel10.Mapper()
 		);
 	}
-	public List<TaskModel11> task11()
-	{
+
+	public List<TaskModel11> task11() {
+		List<TaskModel11> query = jdbcTemplate.query(
+				"SELECT name, fullname, major, milunit_number\n" +
+						"FROM mildistrict\n" +
+						"\t     LEFT JOIN milunit m ON mildistrict.id = m.mildistrict_id\n" +
+						"\t     LEFT JOIN officers o ON o.id = m.commander_id\n" +
+						"WHERE commander_id IS NOT NULL",
+				new TaskModel11.Mapper()
+		);
+		return query;
+	}
+
+	public List<TaskModel11> task11filterMajor(String major) {
 		return jdbcTemplate.query(
-				"",
+				"SELECT name, fullname, major, milunit_number\n" +
+						"FROM mildistrict\n" +
+						"\t     LEFT JOIN milunit m ON mildistrict.id = m.mildistrict_id\n" +
+						"\t     LEFT JOIN officers o ON o.id = m.commander_id\n" +
+						"WHERE commander_id IS NOT NULL " +
+						"AND major=?",
+				new Object[]{major},
 				new TaskModel11.Mapper()
 		);
 	}
-	public List<TaskModel12> task12()
-	{
+
+	public List<TaskModel11> task11filterDistrict(String district) {
 		return jdbcTemplate.query(
-				"",
-				new TaskModel12.Mapper()
-		);
-	}
-	public List<TaskModel13> task13()
-	{
-		return jdbcTemplate.query(
-				"",
-				new TaskModel13.Mapper()
+				"SELECT name, fullname, major, milunit_number\n" +
+						"FROM mildistrict\n" +
+						"\t     LEFT JOIN milunit m ON mildistrict.id = m.mildistrict_id\n" +
+						"\t     LEFT JOIN officers o ON o.id = m.commander_id\n" +
+						"WHERE commander_id IS NOT NULL " +
+						"AND name=?",
+				new Object[]{district},
+				new TaskModel11.Mapper()
 		);
 	}
 
+	public List<TaskModel11> task11filter(String major, String district) {
+		return jdbcTemplate.query(
+				"SELECT name, fullname, major, milunit_number\n" +
+						"FROM mildistrict\n" +
+						"\t     LEFT JOIN milunit m ON mildistrict.id = m.mildistrict_id\n" +
+						"\t     LEFT JOIN officers o ON o.id = m.commander_id\n" +
+						"WHERE commander_id IS NOT NULL " +
+						"AND name=? AND major=?",
+				new Object[]{district, major},
+				new TaskModel11.Mapper()
+		);
+	}
+
+	public List<TaskModel12> task12() {
+		return jdbcTemplate.query(
+				"SELECT milunit.id  AS id,\n" +
+						"       m.tech_type AS type,\n" +
+						"       t2u.amount  AS amount\n" +
+						"FROM milunit\n" +
+						"\t     LEFT JOIN tech2unit t2u ON milunit.id = t2u.unit_id\n" +
+						"\t     LEFT JOIN militech m ON m.id = t2u.tech_id\n" +
+						"WHERE t2u.amount > 10;",
+				new TaskModel12.Mapper()
+		);
+	}
+
+	public List<TaskModel12> task12filtered(String type) {
+		return jdbcTemplate.query(
+				"SELECT milunit.id  AS id,\n" +
+						"       m.tech_type AS type,\n" +
+						"       t2u.amount  AS amount\n" +
+						"FROM milunit\n" +
+						"\t     LEFT JOIN tech2unit t2u ON milunit.id = t2u.unit_id\n" +
+						"\t     LEFT JOIN militech m ON m.id = t2u.tech_id\n" +
+						"WHERE t2u.amount > 10 and tech_type=?;",
+				new Object[]{type},
+				new TaskModel12.Mapper()
+		);
+	}
+
+
+	public TaskModel13 task13() {
+		return jdbcTemplate.query(
+				"SELECT aid as id, COUNT(tid) AS amount\n" +
+						"FROM (SELECT army.id AS aid, t.id AS tid\n" +
+						"      FROM army\n" +
+						"\t           LEFT JOIN tacticunit t ON army.id = t.army_id\n" +
+						"\t           LEFT JOIN milunit m ON t.id = m.tacit_unit_id) AS res\n" +
+						"GROUP BY aid\n" +
+						"HAVING amount <> 0\n" +
+						"ORDER BY amount DESC\n" +
+						"LIMIT 1",
+				new TaskModel13.Mapper()
+		).get(0);
+	}
+
+	public List<TaskModel8> task8filtered(String type) {
+		return jdbcTemplate.query(
+				"SELECT milunit_number as num, " +
+						"t2u.amount as amount\n" +
+						"from milunit left join tech2unit t2u on milunit.id = t2u.unit_id\n" +
+						"left join militech m on m.id = t2u.tech_id\n" +
+						"WHERE tech_type=? AND t2u.amount > 5",
+				new Object[]{type},
+				new TaskModel8.Mapper()
+		);
+
+
+	}
+
+	public List<TaskModel9> task9filtered(String type) {
+		return jdbcTemplate.query(
+				"SELECT m.tech_type   AS type,\n" +
+						"       m.description AS descr,\n" +
+						"       t2u.amount    AS amount,\n" +
+						"       m2.name       AS disname\n" +
+						"FROM milunit\n" +
+						"\t     LEFT JOIN tech2unit t2u ON milunit.id = t2u.unit_id\n" +
+						"\t     LEFT JOIN militech m\n" +
+						"\t               ON m.id = t2u.tech_id\n" +
+						"\t     LEFT JOIN mildistrict m2 ON milunit.mildistrict_id = m2.id\n" +
+						"WHERE tech_type = ?",
+				new Object[]{type},
+				new TaskModel9.Mapper()
+		);
+	}
+
+	public TaskModel13 task13low() {
+		return jdbcTemplate.query(
+				"SELECT aid as id, COUNT(tid) AS amount\n" +
+						"FROM (SELECT army.id AS aid, t.id AS tid\n" +
+						"      FROM army\n" +
+						"\t           LEFT JOIN tacticunit t ON army.id = t.army_id\n" +
+						"\t           LEFT JOIN milunit m ON t.id = m.tacit_unit_id) AS res\n" +
+						"GROUP BY aid\n" +
+						"HAVING amount <> 0\n" +
+						"ORDER BY amount\n" +
+						"LIMIT 1",
+				new TaskModel13.Mapper()
+		).get(0);
+
+	}
 }

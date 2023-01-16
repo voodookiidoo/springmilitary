@@ -5,13 +5,16 @@
 	<title>Title1</title>
 </head>
 <body>
-<form th:method="GET" th:action="@{/military/task1}" >
+<form th:method="GET" th:action="@{/military/task1}">
 	<label for="num" th:text="'just a text'"/>
-	<input type="number" id="num" th:name="number" >
+	<input type="number" id="num" th:name="number">
 	<input type="submit" value="get filtered date">
 </form>
-<div th:each="val : ${result}" >
-	<p ><a th:text="${val.getCommander()}"></a></p>
+<div th:each="val : ${result}">
+	<p><a th:text="${val.getCommander()}"></a></p>
 </div>
+<form th:method="GET" th:action="@{/military}">
+	<button th:text="'To main menu'"/>
+</form>
 </body>
 </html>

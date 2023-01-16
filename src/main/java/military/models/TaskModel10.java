@@ -10,11 +10,16 @@ import java.sql.SQLException;
 @AllArgsConstructor
 public class TaskModel10 {
 
+	private String major;
+	private int amount;
 	public static class Mapper extends BeanPropertyRowMapper<TaskModel10>
 	{
 		@Override
 		public TaskModel10 mapRow(ResultSet rs, int rowNumber) throws SQLException {
-			return super.mapRow(rs, rowNumber);
+			return new TaskModel10(
+					rs.getString("major"),
+					rs.getInt("amount")
+			);
 		}
 	}
 }

@@ -17,6 +17,8 @@
 <div th:each="row :${result}">
 	<p th:text="${'id is ' + row.getId() + ' name is ' + row.getName()}">
 </div>
-
+<form th:method="GET" th:action="@{/military}">
+	<button th:text="'To main menu'"/>
+</form>
 </body>
 </html>

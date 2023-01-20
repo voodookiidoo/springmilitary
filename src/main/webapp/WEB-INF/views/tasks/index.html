@@ -3,13 +3,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Title</title>
+	<link th:href="@{/military/styles/index.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
-<div>
-	<div th:each="num : ${#numbers.sequence(1, 13)}">
-		<p><a th:href="@{/military/task{tasknum}(tasknum=${num})}" th:text="${'Task number '+ num}">
-		</a></p>
-	</div>
+<div th:each="num : ${#numbers.sequence(1, 13)}">
+	<p><a th:href="@{/military/task{tasknum}(tasknum=${num})}" th:text="${'Task number '+ num}">
+	</a></p>
 </div>
 </body>
 </html>

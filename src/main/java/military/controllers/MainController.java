@@ -30,6 +30,7 @@ public class MainController {
 
 	@GetMapping("/task2")
 	public String showTask2(@RequestParam(name = "rank", required = false) String rank, Model model) {
+		if (rank == null || rank.isEmpty()) rank = null;
 		if (rank == null) {
 			model.addAttribute("result", dao.task2());
 		} else {
@@ -40,6 +41,7 @@ public class MainController {
 
 	@GetMapping("/task3")
 	public String showTask3(@RequestParam(name = "type", required = false) String type, Model model) {
+		if (type == null || type.isEmpty()) type = null;
 		if (type == null) {
 			model.addAttribute("result", dao.task3());
 		} else {
@@ -59,11 +61,12 @@ public class MainController {
 			@RequestParam(value = "type", required = false) String type,
 			@RequestParam(value = "num", required = false) Integer num,
 			Model model) {
+		if (type == null || type.isEmpty()) type = null;
 		if (type == null && num == null) {
 			model.addAttribute("result", dao.task6());
 		} else if (type == null) {
 			model.addAttribute("result", dao.task6(num));
-		} else if (num == null && ! type.isEmpty()) {
+		} else if (num == null) {
 			model.addAttribute("result", dao.task6(type));
 		} else {
 			model.addAttribute("result", dao.task6(type, num));
@@ -155,6 +158,11 @@ public class MainController {
 		System.out.println(dao.task13());
 		System.out.println(dao.task13low());
 		return "tasks/task13";
+	}
+
+	@GetMapping("index.css")
+	public String getStyle() {
+		return "css/index.css";
 	}
 
 	@GetMapping()

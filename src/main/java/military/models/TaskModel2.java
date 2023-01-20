@@ -16,6 +16,7 @@ public class TaskModel2 {
 	public static class Mapper extends BeanPropertyRowMapper<TaskModel2> {
 		@Override
 		public TaskModel2 mapRow(ResultSet rs, int rowNumber) throws SQLException {
+
 			return new TaskModel2(
 					rs.getInt("id"),
 					rs.getString("name")
